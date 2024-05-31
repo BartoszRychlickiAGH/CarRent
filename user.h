@@ -118,12 +118,12 @@ class User : public Vehicle{
 						|| (endingDay > 31 || endingDay < 1) || (k > 20 || k < 1));
 					
 					if (Vehicles[k - 1].isReserved(startingMonth, startingDay, endingMonth, endingDay)) {
-						Reservation reserv(startingMonth, startingDay, endingMonth, endingDay,k);
+						Reservation reserv(startingMonth, startingDay, endingMonth, endingDay,k); // wrzuciæ metody i konstruktor klasy reservation aby user przechowywa³ wektor rezerwacji
 						reservationsHistory.push_back(reserv);
 						cout << endl << "Reservation made! Thank you!" << endl;
 					}
 					else {
-						cout << "Chosen vehicle is actually reserved in given data!" << endl;
+						cout << "Chosen vehicle is actually reserved or under maintace given data!" << endl;
 					}
 					
 				}
@@ -178,9 +178,25 @@ class Admin : public User {
 		string Key{""}; // klucz uprawniaj¹cy do wykonywania ró¿nych akcji z poziomu administratora
 	public:
 		Admin(string p_name, string p_surname, string p_login,string p_password, int p_age,string p_key) :User(p_name,p_surname,p_login,p_password,p_age),Key(p_key) {}
-		virtual void Interface() {
-			cout << "Admin interface terminated!" << endl;
-		}
+		 void InterfaceAdmin() {
+			 while (true) {
+				 //cout << "Admin interface terminated!"<<endl<<"Under constructions!" << endl;
+				 cout << "Choose action!" << endl;
+				 //1. Admin info -> Print()
+				 //2. Manage user's -> choose user -> 
+													//1. User's info and if required, changing data
+													//2. Manage user's reservations
+													//3. Block user's access
+													//4. Unblock user's access
+													//5. Delete user
+				 //3. Manage vehicle's -> Choose vehicle ->
+													//1. Vehicle's info and if required, changing data
+													//2. Turn avability of vehicle to "in maintance"
+													//3. Turn avability of vehicle to "available"
+													//4. Delete vehicle
+				 //4. Log out
+			 }
+		 }
 };
 
 vector<User>Users{}; // collection of users <Login,Password>

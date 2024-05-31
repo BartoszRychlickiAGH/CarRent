@@ -129,10 +129,6 @@ int main() {
         int n{ stoi(input) }; // input given by user
         switch (n) { // logging in module
         case 1:
-            if (Users.size() <2) {
-                cout << "The are no accounts!" << endl;
-                break;
-            }
             do {
                 cout << "Enter login: ", cin >> input, cout << endl << "Enter password: ", cin >> input1, cout << endl;
                 if (regex_match(input, regex("^$")) || regex_match(input1, regex("^$"))) { cout << "You have to enter login and password!" << endl; }
@@ -143,7 +139,10 @@ int main() {
                 int k{ findUserInColl(input) };
 
                 //przekierowanie do interfejsu admina
-                Users[k].Interface();
+                if (input == "Admin1") {
+                    Ad1.InterfaceAdmin();
+                }
+                
             }
             else {
                 cout << "Entered wrong login or password!" << endl;

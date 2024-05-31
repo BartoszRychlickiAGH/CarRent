@@ -1,11 +1,10 @@
 #ifndef VEHICLE_HPP_
 #define VEHICLE_HPP_
 #include "including.h"
-#include "ReservationCalendar.h"
 
 
 
-class Vehicle : public Calendar{
+class Vehicle{
 private:
 	string brand{ "" };//marka
 	string model{ "" };//model
