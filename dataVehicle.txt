@@ -17,4 +17,4 @@ Hyundai,Elantra,Automatic,2.0LI4,Good,Sedan,Common,;
 Jaguar,F-Pace,Automatic,2.0LI4,Good,SUV,Luxury,;
 Kia,Soul,Manual,2.0LI4,Good,Hatchback,Common,;
 Lamborghini,Huracán,Automatic,5.2LV10,Excellent,Coupe,Rare,;
-Volvo,XC90,Automatic,2.0LI4,Excellent,SUV,Luxury, ;
+Volvo,XC90,Automatic,2.0LI4,Excellent,SUV,Luxury,;

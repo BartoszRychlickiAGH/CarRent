@@ -117,7 +117,7 @@ class User : public Vehicle{
 					} while ((startingMonth < 1 || startingMonth>12) || (endingMonth < 1 || endingMonth>12) || (startingDay < 1 || startingDay>31)
 						|| (endingDay > 31 || endingDay < 1) || (k > 20 || k < 1));
 					
-					if (Vehicles[k - 1].getCalendar().isReserved(startingMonth, startingDay, endingMonth, endingDay)) {
+					if (Vehicles[k - 1].isReserved(startingMonth, startingDay, endingMonth, endingDay)) {
 						Reservation reserv(startingMonth, startingDay, endingMonth, endingDay,k);
 						reservationsHistory.push_back(reserv);
 						cout << endl << "Reservation made! Thank you!" << endl;
@@ -154,7 +154,7 @@ class User : public Vehicle{
 						string s{};
 						cout << "Enter a confition of a vehicle of which reservation you want to end! Enter good, bad or excellent! " << endl;
 						cin >> s; reservationsHistory[j].getVehicle().setCondition(s);
-						reservationsHistory[j].getVehicle().getCalendar().deleteReservationCal(reservationsHistory[j].getStrMonth(), reservationsHistory[j].getStrDay(), reservationsHistory[j].getDueMonth(), reservationsHistory[j].getDueDay());
+						reservationsHistory[j].getVehicle().deleteReservationCal(reservationsHistory[j].getStrMonth(), reservationsHistory[j].getStrDay(), reservationsHistory[j].getDueMonth(), reservationsHistory[j].getDueDay());
 						reservationsHistory[j].~Reservation();
 						reservationsHistory.erase(reservationsHistory.begin() + j);
 					}

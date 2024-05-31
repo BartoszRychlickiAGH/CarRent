@@ -21,7 +21,7 @@ class Reservation : public Vehicle{
 		str_Month(p_strM),str_Day(p_strD),due_Month(p_dueM),due_Day(p_dueD){
 			--k;
 			setVehicle(Vehicles[k]);
-			object->getCalendar().reservingCalendar(str_Month, str_Day, due_Month, due_Day);
+			object->reservingCalendar(str_Month, str_Day, due_Month, due_Day);
 		}
 
 		virtual void Print() {
@@ -29,7 +29,7 @@ class Reservation : public Vehicle{
 			cout << "Reservation starts from: " << getStrDay() << "." << getStrMonth() << " and ends in: " << getDueDay() << "." << getDueMonth() << endl;
 			cout << "Vehicle of paremetres as below: " << endl;
 			object->Print();
-			cout << "Total price will be: " << float(object->getprice() * object->getCalendar().getDaysTotal()) << " PLN" << endl;
+			cout << "Total price will be: " << float(object->getprice() * object->getDaysTotal()) << " PLN" << endl;
 		}
 		~Reservation() {}//destruktor: deleteReservationCal
 };
