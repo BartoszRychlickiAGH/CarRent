@@ -23,7 +23,17 @@ class Reservation : public Vehicle{
 			setVehicle(Vehicles[k]);
 			object->reservingCalendar(str_Month, str_Day, due_Month, due_Day);
 		}
-
+		void ManageReservation() {
+			while (true) {
+				//choose action
+				//1. Change startMonth
+				//2. Change startDay
+				//3. Change dueMonth
+				//4. Change dueDay
+				//5. Change Vehicle
+				//6. Exit from module
+			}
+		}
 		virtual void Print() {
 			cout << "--------------------------------------------------------------------" << endl;
 			cout << "Reservation starts from: " << getStrDay() << "." << getStrMonth() << " and ends in: " << getDueDay() << "." << getDueMonth() << endl;

@@ -12,9 +12,6 @@
     <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\including.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\ReservationCalendar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\reservation.h">
       <Filter>Header Files</Filter>
     </ClInclude>

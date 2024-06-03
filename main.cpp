@@ -142,6 +142,9 @@ int main() {
                 if (input == "Admin1") {
                     Ad1.InterfaceAdmin();
                 }
+                else {
+                    Users[k].Interface();
+                }
                 
             }
             else {
@@ -156,7 +159,7 @@ int main() {
             //brak wyœwietlania komunikatów o pustym inpucie podczas wprowadzania danych
             do {
                 cout << "Enter name: ", cin >> in1;
-                if (regex_match(in1,regex( "^$"))) {
+                if (in1=="") {
                     cout << "You have to enter any name!" << endl;
                 }
             } while (regex_match(in1,regex("^$")));

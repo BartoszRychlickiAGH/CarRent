@@ -305,7 +305,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\main.cpp" />
     <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\vehicle.h" />
     <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\including.h" />
-    <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\ReservationCalendar.h" />
     <ClInclude Include="C:\Users\brych\OneDrive\Pulpit\PROJEKTY\C++\CarRent\reservation.h" />
   </ItemGroup>
   <ItemGroup>
