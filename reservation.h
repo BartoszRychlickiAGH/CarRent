@@ -175,6 +175,7 @@ class Reservation : public Vehicle{
 				}
 				else if (n == "3") {//3. Delete reservation
 					cout << "Deleted!" << endl << endl;
+					setMDecision(3);
 					break;
 				}
 				else if (n == "4") {//4. Exit

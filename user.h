@@ -221,8 +221,8 @@ class User : public Vehicle{
 							}
 							
 						} while (!validation); // variables which will store admin input
-						sM--; dD--; sD--; dM--; k--; // decrementing variables to match with index of array
-						if (Vehicles[k].isReserved(sM, sD, dM, dD)) {
+						sM--; dD--; sD--; dM--; // decrementing variables to match with index of array
+						if (Vehicles[k-1].isReserved(sM, sD, dM, dD)) {
 							Reservation reserv(sM, sD, dM, dD, k); // wrzuciæ metody i konstruktor klasy reservation aby user przechowywa³ wektor rezerwacji
 							reservationsHistory.push_back(reserv);
 							cout << endl << "Reservation made! Thank you!" << endl;
@@ -425,46 +425,44 @@ class Admin : public User {
 						 }
 						 break;
 					 case 2:	//2. Manage user's reservations
-						 
-							while (decision == "yes" || decision == "Yes") {
-								if (Users[k].reservationsHistory.size() > 0) {
-									decision = "Yes"; int j = 0;
-									do {
+						
+						decision = "Yes"; // decision variable which will be used to manage reservations
+						while (regex_match(decision,regex("[Yy]es"))) {
+							if (Users[k].reservationsHistory.size() > 0) {
+								int j = 0;
+								do {
 
-										cout << "Choose reservation to manage: " << endl;
-										j = 0;
-										for (auto i = Users[k].reservationsHistory.begin(); i != Users[k].reservationsHistory.end(); ++i) {
+									cout << "Choose reservation to manage: " << endl;
+									j = 0;
+									for (auto i = Users[k].reservationsHistory.begin(); i != Users[k].reservationsHistory.end(); ++i) {
 
-											cout << "--------------------------------" << endl;
-											j++; cout << j << ": " << endl;//print reservations
+										cout << "--------------------------------" << endl;
+										j++; cout << j << ": " << endl;//print reservations
 
-											i->Print(), cout << endl;
-										}cout << "--------------------------------" << endl;
-										cin >> j; j--;
-										if (j > Users[k].reservationsHistory.size() - 1) { cout << "Entered wrong numnber! Try again!\n\n"; }
-									} while (j > Users[k].reservationsHistory.size() - 1);
+										i->Print(), cout << endl;
+									}cout << "--------------------------------" << endl;
+									cin >> j; j--;
+									if (j > Users[k].reservationsHistory.size() - 1) { cout << "Entered wrong numnber! Try again!\n\n"; }
+								} while (j > Users[k].reservationsHistory.size() - 1);
 
-									Users[k].reservationsHistory[j].Manage(k, j);
+								Users[k].reservationsHistory[j].Manage(k, j);
 
-									int g = Users[k].reservationsHistory[j].getMDecision(); // g is a variable which will store admin's decision of if he deleted reservation
+								int g = Users[k].reservationsHistory[j].getMDecision(); // g is a variable which will store admin's decision of if he deleted reservation
 
-									if (g == 4) {
-										Users[k].reservationsHistory[j].~Reservation();
-										Users[k].reservationsHistory.erase(Users[k].reservationsHistory.begin() + j);
-									}
-									cout << endl << "Do you want to manage another reservation?" << endl;
-									cin >> decision;
-									cout << endl;
+								if (g == 3) {
+									Users[k].reservationsHistory[j].~Reservation();
+									Users[k].reservationsHistory.erase(Users[k].reservationsHistory.begin() + j);
 								}
-								else {
-									cout << "\nThere's no reservations to manage!\n\n";
-									break;
-								}
-						 
-								// outer function
+								cout << endl << "Do you want to manage another reservation?" << endl;
+								cin >> decision;
+								cout << endl;
 							}
-						 
-						 
+							else {
+								cout << "\nThere's no reservations to manage!\n\n";
+								break;
+							}
+						};
+						break;
 					 case 3:	//3. Block user's access
 						 Users[k].setBan(1);
 						 cout << "\nAccount banned!\n" << endl;
