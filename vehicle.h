@@ -176,15 +176,16 @@ public:
 	}
 	
 	virtual void Manage(string n_in) {
-		while (true) {
-			string strMonth{}, strDay{}, dueMonth{}, dueDay{}; bool validation{};
-			int sM{}, sD{}, dM{}, dD{}; // variables which will be storing informations about date in which there will be vehicles's mainatnce or end of maitance
+		
+		string strMonth{}, strDay{}, dueMonth{}, dueDay{}; bool validation{};
+		int sM{}, sD{}, dM{}, dD{}; // variables which will be storing informations about date in which there will be vehicles's mainatnce or end of maitance
 			
-			if (n_in == "1") { //1. Vehicle's info and if required, changing data
-				cout << "under constructuin!" << endl;
-			}
-			else if (n_in == "2"||n_in=="3") {//2. Turn avability of vehicle to "in maintance"
-				cout << "Enter date of maintance: " << endl;
+		if (n_in == "1") { //1. Vehicle's info and if required, changing data
+			cout << "Under construction!" << endl;
+		}
+		else if (n_in == "2" || n_in == "3") {//2. Turn avability of vehicle to "in maintance"
+			do{
+				cout << "Enter date: " << endl;
 				do {
 					cout << "Enter starting month: ", cin >> strMonth;
 					if (!regex_match(strMonth, regex("[1-91-9]+"))) {
@@ -287,28 +288,43 @@ public:
 
 							}
 							else {
-								cout << "Entered bad inout value! Mind to enter number between 1-31" << endl;
+								cout << "Entered bad input value! Mind to enter number between 1-31" << endl;
 								validation = false;
 							}
 						}
 					}
-					if (n_in == "3" || isReserved(sM, sD, dM, dD)) { cout << "There was no mainatnce in given date!" << endl << endl; }
-					if (n_in=="2" || !isReserved(sM, sD, dM, dD)) { validation = false; cout << "Vehicle already in use at this date!\n\n"; }
 				} while (!validation);
-				if (n_in == "2") {
-					reservingCalendar(sM, sD, dM, dD);
-					cout << "\nChanged status to 'in maintenance!'" << endl;
+				if (n_in == "3") {
+					if (isReserved(sM, sD, dM, dD)) {
+						cout << "There was no mainatnce in given date!" << endl << endl; validation = false;
+
+					}
+					else {
+						validation = true;
+					}
 				}
-				else {
-					deleteReservationCal(sM,sD,dM,dD);
-					cout << "\nChanged status to 'available!'" << endl;
+				else if (n_in == "2") {
+					if (!isReserved(sM, sD, dM, dD)) {
+						validation = false; cout << "Vehicle already in use at this date!\n\n";
+					}
+					else {
+						validation = true;
+					}
 				}
-				}
-			else if (n_in == "5") {//5. Exit
-				cout << "\nExiting...\n";
-				break;
+			}while (!validation);
+			if (n_in == "2") {
+				reservingCalendar(sM, sD, dM, dD);
+				cout << "\nChanged status to 'in maintenance!'" << endl;
+			}
+			else {
+				deleteReservationCal(sM,sD,dM,dD);
+				cout << "\nChanged status to 'available!'" << endl;
 			}
 		}
+		else {
+			cout << "Entered wrong number! Try again!" << endl;
+		}
+		
 	}
 	~Vehicle() {};
 	

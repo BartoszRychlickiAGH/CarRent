@@ -86,9 +86,6 @@ class User : public Vehicle{
 
 			while (true)
 			{
-				
-				
-
 				cout << "\nChoose action: " << endl; 
 				cout << "1.User info\n2.New reservation\n3.CurrentReservations\n4.Cancel Reservation\n5.Vehicles available\n6.Log out" << endl;
 				do {
@@ -107,10 +104,12 @@ class User : public Vehicle{
 
 						do {
 							PrintVehicles(), cout << endl << "Chosen number of vehicle: ", cin >> k_in; cout << endl;
-							if (!regex_match(k_in, regex("[1-91-9]+"))) { cout << "Entered incorrect input! Enter number between 1-20" << endl << endl; }
-						} while (!regex_match(k_in, regex("[1-91-9]+")));
+							if (!regex_match(k_in, regex("[0-90-9]+"))) { validation = false; cout << "Entered incorrect input! Enter number between 1-20" << endl << endl; }
+							else if (stoi(k_in) > 20 || stoi(k_in) < 1) { validation = false; cout << "Entered wrong number of vehicle!" << endl << endl; }
+							else { validation = true; }
+						} while (!validation);
 						k = stoi(k_in);
-						
+						--k;
 						
 						do {
 							cout << "Enter starting month: ", cin >> strMonth;
@@ -222,7 +221,7 @@ class User : public Vehicle{
 							
 						} while (!validation); // variables which will store admin input
 						sM--; dD--; sD--; dM--; // decrementing variables to match with index of array
-						if (Vehicles[k-1].isReserved(sM, sD, dM, dD)) {
+						if (Vehicles[k].isReserved(sM, sD, dM, dD)) {
 							Reservation reserv(sM, sD, dM, dD, k); // wrzuciæ metody i konstruktor klasy reservation aby user przechowywa³ wektor rezerwacji
 							reservationsHistory.push_back(reserv);
 							cout << endl << "Reservation made! Thank you!" << endl;
@@ -382,20 +381,25 @@ class Admin : public User {
 			}
 		}
 		void InterfaceAdmin() {
-			 while (true) {
-				 //cout << "Admin interface terminated!"<<endl<<"Under constructions!" << endl;
-				 cout << "\nChoose action!" << endl;
-				 cout << "1. Admin's info" << endl;
-				 cout << "2. Manage user" << endl;
-				 cout << "3. Manage vehicle" << endl;
-				 cout << "4. Log out" << endl;
-				 int n{ 0 }, k{ 0 }, b{ 1 }; string decision{}; cin >> n; // n - variable to choose sepcified module, k - variable to point exact user or vehicle, which admin wants to manage
-						
-				 if (n == 1) {
+			while (true) {
+				int n{ 0 }, k{ 0 }, b{ 1 }; string decision{},input; // n - variable to choose sepcified module, k - variable to point exact user or vehicle, which admin wants to manage
+				do{//cout << "Admin interface terminated!"<<endl<<"Under constructions!" << endl;
+					cout << "\nChoose action!" << endl;
+					cout << "1. Admin's info" << endl;
+					cout << "2. Manage user" << endl;
+					cout << "3. Manage vehicle" << endl;
+					cout << "4. Log out" << endl;
+					cin >> input;
+					if (!regex_match(input, regex("[1-4]+"))) { cout << "\nEntered incorrect input value! Enter only number between 1-4!\n\n"; }
+				} while (!regex_match(input,regex("[1-4]+")));
+				
+				n = stoi(input);
+				
+				if (n == 1) {
 					 //1. Admin info -> Print()
 					 Print();
-				 }
-				 else if (n == 2) {	//2. Manage user 
+				}
+				else if (n == 2) {	//2. Manage user 
 					 do {
 						 cout << "Choose user: " << endl; ;//choose user to manage
 						 cout << "-------------------------------------------" << endl;
@@ -482,45 +486,57 @@ class Admin : public User {
 						 cout << "Entered bad input value! Remember to enter number between 1-5!" << endl;
 						 break;
 					 }
-				 }
-				 else if (n == 3) {
+				}
+				else if (n == 3) {
 					 //cout << "Under construction" << endl;//3. Manage vehicle's -> Choose vehicle ->
-					 int n{}; string n_in,k_in;
-					 do {
+					 int n{}; string n_in, k_in; bool validation{ true };
+					 do { 
 						 PrintVehicles();
 						 cout << endl;
 						 cin >> k_in;
-						 if (!regex_match(k_in, regex("[0-90-9]+"))) { cout << "Entered wrong nuber of vehicle! Try again!" << endl << endl;; }
-					 } while (!regex_match(k_in,regex("[0-90-9]+")));
+						 if (!regex_match(k_in, regex("[0-90-9]+"))) { cout << "Entered type of input! Enter only numbers!" << endl << endl; validation = false; }
+						 else if (stoi(k_in) < 1 || stoi(k_in) > 20) { cout << "\nEntered wrong number of vehicle! Enter number between 1-20!\n\n"; validation = false; }
+						 else { validation = true; }
+					 } while (!validation);
 					 
 					 n = stoi(k_in);
 					 n--;
-					 do {
-						 cout << "\nChoose action: " << endl;
-						 cout << "1. Change vehicle info!" << endl;
-						 cout << "2. Turn status to 'in maintance'!" << endl;
-						 cout << "3. Turn status to 'available" << endl;
-						 cout << "4. Delete vehicle" << endl;
-						 cout << "5. Exit" << endl;
-						 cin >> n_in; cout << endl<<endl;
-						 if (!regex_match(n_in, regex("[1-5]+"))) { cout << "Entered wrong input value! Mind to enter number between 1-5\n" << endl; }
-					 } while (!regex_match(n_in, regex("[1-5]+")));
-					 if (n_in == "4") {
-						 Vehicles[n].~Vehicle();
-						 Vehicles.erase(Vehicles.begin() + n);
-					 }
-					 Vehicles[n].Manage(n_in);
+					 while (true) {
+						 do {
+							 cout << "\nChoose action: " << endl;
+							 cout << "1. Change vehicle info!" << endl;
+							 cout << "2. Turn status to 'in maintance'!" << endl;
+							 cout << "3. Turn status to 'available" << endl;
+							 cout << "4. Delete vehicle" << endl;
+							 cout << "5. Exit" << endl;
+							 cin >> n_in; cout << endl << endl;
+							 if (!regex_match(n_in, regex("[1-5]+"))) { cout << "Entered wrong input value! Mind to enter number between 1-5\n" << endl; }
+						 } while (!regex_match(n_in, regex("[1-5]+")));
+						 
+						 if (n_in == "4") { // 4. Delete vehicle
+							 Vehicles.erase(Vehicles.begin() + n);
+							 break;
+						 }
+						 else if (n_in == "5") {//5. Exit
+							 cout << "\nExiting...\n";
+							 break;
+						 }
+						 else {
+							 Vehicles[n].Manage(n_in);
+						 }
+						 
 
-				 }
-				 else if (n == 4) {
+					 }
+				}
+				else if (n == 4) {
 					 //4. Log out
 					 cout << "Loging out..." << endl;
 					 break;
-				 }else{
+				}else{
 					 cout << endl << "Entered bad input! Mind to choose number between 1-4!" << endl;
-				 }
-			 }
-		 }
+				}
+			}
+		}
 };
 
 #endif 

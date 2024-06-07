@@ -20,7 +20,6 @@ class Reservation : public Vehicle{
 		void setDaysTotal(int p_DaysTot) { daysTotal = p_DaysTot; }  int getDaysTotal(void)const { return daysTotal; }
 		Reservation(int p_strM, int p_strD, int p_dueM, int p_dueD,int k)://konstruktor: isReserved -> ReservsationCalcendar
 		str_Month(p_strM),str_Day(p_strD),due_Month(p_dueM),due_Day(p_dueD){
-			--k;
 			setVehicle(Vehicles[k]);
 			setDaysTotal(object->reservingCalendar(str_Month, str_Day, due_Month, due_Day));
 		}
