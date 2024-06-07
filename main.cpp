@@ -116,6 +116,7 @@ int main() {
     
 
     while (true) {
+
         cout << endl;
         cout << "Choose action: " << endl;
         cout << "1.Sign in" << endl;
@@ -128,6 +129,7 @@ int main() {
             }
         } while (input != "1" && input != "2" && input != "3");
         int n{ stoi(input) }; // input given by user
+        system("cls");
          // logging in module
             if (n == 1){
                 do {
@@ -152,7 +154,7 @@ int main() {
                     cout << "Entered wrong login or password!" << endl;
                 }
                 cout << endl;
-
+                system("cls");
             }
             else if (n == 2) { // registering module
 
@@ -223,6 +225,7 @@ int main() {
                     //fileUsers.write(s.c_str(),s.size()); // cannot save s to fileUsers
 
                     cout << endl;
+                    system("cls");
             }
             else if (n == 3) { // exit module
                 //fileUsersIn.trunc; // ERASE EVERYTHING FROM FILE

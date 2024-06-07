@@ -21,6 +21,12 @@ private:
 public:
 	void setCondition(string p_condition) { condition = p_condition; }// setStan
 	void setPrice(float p_price = 0.0) { price = p_price; }
+	void setBrand(string p_brand) { brand = p_brand; }
+	void setModel(string p_model) { model = p_model; }
+	void setCategory(string p_category) { category = p_category; }
+	void setEngine(string p_Engine) { engine = p_Engine; }
+	void setGearBox(string p_gearbox) { gearbox = p_gearbox; }
+	void setType(string p_type) { type = p_type; }
 
 	string getName(void)const { return model; }
 	string getCondition(void) { return condition; }// getStan
@@ -176,12 +182,102 @@ public:
 	}
 	
 	virtual void Manage(string n_in) {
-		
+		system("cls");
 		string strMonth{}, strDay{}, dueMonth{}, dueDay{}; bool validation{};
 		int sM{}, sD{}, dM{}, dD{}; // variables which will be storing informations about date in which there will be vehicles's mainatnce or end of maitance
 			
 		if (n_in == "1") { //1. Vehicle's info and if required, changing data
-			cout << "Under construction!" << endl;
+			string input{""};
+			while (true) {
+				{
+					
+					cout << "\nChoose action: " << endl;
+					cout << "1. Change brand name" << endl;
+					cout << "2. Change model name" << endl;
+					cout << "3. Change class" << endl;
+					cout << "4. Change engine" << endl;
+					cout << "5. Change gearbox" << endl;
+					cout << "6. Change condition" << endl;
+					cout << "7. Change price" << endl;
+					cout << "8. Exit" << endl;
+					cin >> input;
+					cout << endl;
+					if (!regex_match(input, regex("[1-8]+"))) { cout << "invalid input! Enter number between 1-8!" << endl; }
+				}while (!regex_match(input, regex("[1-8]+")));
+				if (input == "1") { // Change brand name
+					do {
+						cout << "Enter brand name: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; }
+						// cheking if admin entere brand's name which exist IRL
+					} while (!regex_match(input,regex("^[A-Za-z]+$")));
+					setBrand(input);
+					cout <<endl<<"Vehicle's brand name changed" << endl;
+				}
+				else if (input == "2") { // Change model name
+					do {
+						cout << "Enter model name: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z0-9]+$"))) { cout << "Entered wrong input value" << endl; }
+						// cheking if admin entere brand's name which exist IRL
+					} while (!regex_match(input, regex("^[A-Za-z0-9]+$")));
+					setModel(input);
+					cout << endl << "Vehicle's model name changed" << endl;
+				}
+				else if (input == "3") { // Change class
+					do {
+						validation = true;
+						cout << "Enter class name: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
+						if (input != "Common" && input != "Luxury" && input != "Rare") { validation = false; cout << "Entered wrong input value!\n Enter one of these classes: Common, Rare, Luxury" << endl; }
+						// cheking if admin entere brand's name which exist IRL
+					} while (!validation);
+					setCategory(input);
+					cout << endl << "Vehicle's class changed" << endl;
+				}
+				else if (input == "4") { // Change engine
+					do {
+						validation = true;
+						cout << "Enter engine: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z0-9]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
+						// cheking if admin entere brand's name which exist IRL
+					} while (!validation);
+					setEngine(input);
+					cout << endl << "Vehicle's engine changed" << endl;
+				}
+				else if (input == "5") { // Change gearbox
+					do {
+						validation = true;
+						cout << "Enter gearbox: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
+						if (input != "Automatic" && input != "Manual" ) { validation = false; cout << "Entered wrong input value!\n Enter one of these gearboxes: Automatic, Manual" << endl; }
+						// cheking if admin entere brand's name which exist IRL
+					} while (!validation);
+					setGearBox(input);
+					cout << endl << "Vehicle's gearbox changed" << endl;
+				}
+				else if (input == "6") { // Change condition
+					do {
+						validation = true;
+						cout << "Enter condition: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
+						if (input != "Bad" && input != "Excellent" && input != "Good") { validation = false; cout << "Entered wrong input value!\n Enter one of these conditions: Bad, Good, Excellent" << endl; }
+						// cheking if admin entere brand's name which exist IRL
+					} while (!validation);
+					setCondition(input);
+					cout << endl << "Vehicle's condition changed" << endl;
+				}
+				else if (input == "7") { // Change price
+					do {
+						cout << "Enter new price: ", cin >> input, cout << endl;
+						if (!regex_match(input, regex("[0-9]+$"))) { cout << "Entered not a number! Mind to enter only numbers while changing vehicle's price!" << endl; };
+					} while (!regex_match(input, regex("[0-9]+$")));
+					setPrice(stoi(input));
+					cout << endl << "Vehicle's price changed" << endl;
+				}
+				else if (input == "8") { // Exit
+					cout << "Exiting..." << endl;
+					break;
+				}
+			}
 		}
 		else if (n_in == "2" || n_in == "3") {//2. Turn avability of vehicle to "in maintance"
 			do{

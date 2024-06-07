@@ -25,6 +25,7 @@ class Reservation : public Vehicle{
 		}
 		virtual void Manage(int k,int j) {
 			while (true) {
+				system("cls");
 				string n{};//variable which will represents admin's choice of in which way he want to manage exact reservation
 				cout << endl << "Choose action on reservation" << endl;
 				cout << "1. Reservation details" << endl;

@@ -86,6 +86,7 @@ class User : public Vehicle{
 
 			while (true)
 			{
+				system("cls");
 				cout << "\nChoose action: " << endl; 
 				cout << "1.User info\n2.New reservation\n3.CurrentReservations\n4.Cancel Reservation\n5.Vehicles available\n6.Log out" << endl;
 				do {
@@ -382,6 +383,7 @@ class Admin : public User {
 		}
 		void InterfaceAdmin() {
 			while (true) {
+				system("cls");
 				int n{ 0 }, k{ 0 }, b{ 1 }; string decision{},input; // n - variable to choose sepcified module, k - variable to point exact user or vehicle, which admin wants to manage
 				do{//cout << "Admin interface terminated!"<<endl<<"Under constructions!" << endl;
 					cout << "\nChoose action!" << endl;
@@ -488,7 +490,6 @@ class Admin : public User {
 					 }
 				}
 				else if (n == 3) {
-					 //cout << "Under construction" << endl;//3. Manage vehicle's -> Choose vehicle ->
 					 int n{}; string n_in, k_in; bool validation{ true };
 					 do { 
 						 PrintVehicles();
@@ -524,8 +525,6 @@ class Admin : public User {
 						 else {
 							 Vehicles[n].Manage(n_in);
 						 }
-						 
-
 					 }
 				}
 				else if (n == 4) {
