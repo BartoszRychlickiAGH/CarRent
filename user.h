@@ -1,3 +1,4 @@
+//Header file which contains classes User and Admin and methods which are responsible for managing users and vehicles. User and admin interfaces executed in this file.
 #ifndef USER_HPP_
 #define USER_HPP_
 #include "including.h"
@@ -10,12 +11,12 @@ class User : public Vehicle{
 		int age{ 0 }, ban{0};
 	public: 
 		vector<Reservation>reservationsHistory{}; // history of reservations
-		//konstruktor
+		//construktor
 		User(string p_name = "Didn't set", string p_surname = "Didn't set", string p_login = "Didn't set",string p_password="Didn't set",int p_age=0,int p_ban=0):
 			name(p_name), surname(p_surname), login(p_login), password(p_password), age(p_age),ban(p_ban) {
 		}
 
-		//settery pól
+		//setters
 		void setName(string p_name = "Didn't set") {
 			name = p_name;
 		}
@@ -39,7 +40,7 @@ class User : public Vehicle{
 		}
 		
 
-		//gettery pól
+		//getters
 		string getName(void){
 			return name;
 		}
@@ -62,10 +63,10 @@ class User : public Vehicle{
 			return Key;
 		}
 		
-		virtual void Print() {
+		virtual void Print() { // virtua function to print an object of class user
 			cout << "1. Name: " << getName() << "\n2. Surname: " << getSurname() << "\n3. Login: " << getLogin() << "\n4. Age : " << getAge() << endl;
 		}
-		void deleteHistory() {
+		void deleteHistory() { // an function to erase an reservation from vector of reservations
 			int j{ 0 }; string k{};
 			cout << "Choose reservation to cancel: " << endl;
 			for (int i = 0; i <= reservationsHistory.size() - 1; i++) {
@@ -75,18 +76,19 @@ class User : public Vehicle{
 			cout << endl, cin >> k,j=stoi(k),--j, reservationsHistory[j].~Reservation(), reservationsHistory.erase(reservationsHistory.begin()+j);
 		}
 
-		void Interface() {
+		void Interface() { //user interface
 			string n_string{ "" }; int n{}; // indicators which point an action chosen by user
-			string strDay{}, strMonth{}, dueDay{}, dueMonth{}; // variables which will store admin input
-			string k_in{};
+			string strDay{}, strMonth{}, dueDay{}, dueMonth{}; // variables which will store an date to reserve vehicle
+			string k_in{}; // variable which will store an index of chosen vehicle in vector of vehicles
 			
 			int k{ 1 };
 			int sD{}, sM{ }, dD{ }, dM{ }; // variables which will be changing date of reservation
-			bool validation{};//variable which will be checking if admin entered correct input
-
+			bool validation{};//variable which will be checking if admin or user entered correct input
+			system("cls"); // cleaning terminal
+			
 			while (true)
 			{
-				system("cls");
+				
 				cout << "\nChoose action: " << endl; 
 				cout << "1.User info\n2.New reservation\n3.CurrentReservations\n4.Cancel Reservation\n5.Vehicles available\n6.Log out" << endl;
 				do {
@@ -94,12 +96,12 @@ class User : public Vehicle{
 					if (!regex_match(n_string, regex("[1-6]"))) {
 						cout << "Entered bad input value! Mind to entered number from 1-6!" << endl;
 					}
-				} while (!regex_match(n_string, regex("[1-6]")));
-				n = stoi(n_string);
-				if (n == 1) {
+				} while (!regex_match(n_string, regex("[1-6]"))); // checking if user entered an number dewer than 1 or larger than 6
+				n = stoi(n_string); // conversion from string to integer
+				if (n == 1) { // Print user's data
 					Print();
 				}
-				else if (n == 2) {
+				else if (n == 2) { // Reserving module
 					if (getBan()==0) {
 						cout << "Choose a vehicle: " << endl;
 
@@ -108,21 +110,21 @@ class User : public Vehicle{
 							if (!regex_match(k_in, regex("[0-90-9]+"))) { validation = false; cout << "Entered incorrect input! Enter number between 1-20" << endl << endl; }
 							else if (stoi(k_in) > 20 || stoi(k_in) < 1) { validation = false; cout << "Entered wrong number of vehicle!" << endl << endl; }
 							else { validation = true; }
-						} while (!validation);
-						k = stoi(k_in);
-						--k;
+						} while (!validation); // validation = false, when user eneterd NaN input or number larger than 20 or fewer than 1
+						k = stoi(k_in); // conversion to integer
+						--k; // predecrementing, because indexes starts from 0
 						
 						do {
 							cout << "Enter starting month: ", cin >> strMonth;
-							if (!regex_match(strMonth, regex("[1-91-9]+"))) {
+							if (!regex_match(strMonth, regex("[1-91-9]+"))) { // checking if user eneterd an number
 								cout << "Entered invalid input!\nEnter only numbers" << endl;
 								validation = false;
 							}
 							else {
 								sM = stoi(strMonth);
-								if (sM < 1 || sM>12) {
+								if (sM < 1 || sM>12) { // checking if user eneterd correct number of month
 									validation = false;
-									cout << "Entered incorrect inout value! Mind to enter number between 1-12!" << endl << endl;
+									cout << "Entered incorrect inout value! Mind to enter number between 1-12!" <<	endl << endl;
 								}
 								else {
 									validation = true;
@@ -132,12 +134,13 @@ class User : public Vehicle{
 						} while (!validation);
 						do {
 							cout << "Enter starting day: ", cin >> strDay;
-							if (!regex_match(strDay, regex("[1-90-1]+"))) {
+							if (!regex_match(strDay, regex("[1-90-1]+"))) { // checkign if user eneterd and number
 								cout << "Entered invalid input!\nEnter only numbers" << endl;
 								validation = false;
 							}
 							else {
 								sD = stoi(strDay);
+								//checking if user enetered correct number of day for given number of month
 								if (sD < 32) {
 									if (sM == 2 && sD < 29) {
 										validation = true;
@@ -162,13 +165,13 @@ class User : public Vehicle{
 
 						do {
 							cout << "Enter ending month: ", cin >> dueMonth;
-							if (!regex_match(dueMonth, regex("[1-91-9]+"))) {
+							if (!regex_match(dueMonth, regex("[1-91-9]+"))) { // checking if given input is a number
 								cout << "Entered invalid input!\nEnter only numbers" << endl;
 								validation = false;
 							}
 							else {
 								dM = stoi(dueMonth);
-								if (dM >= sM) {
+								if (dM >= sM) {//number of ending minth cannot be ferwer than number of starting month
 									if (dM < 1 || dM>12) {
 										validation = false;
 										cout << "Entered incorrect input value! Mind to enter number between 1-12!" << endl << endl;
@@ -186,18 +189,18 @@ class User : public Vehicle{
 						} while (!validation);
 						do {
 							cout << "Enter ending day: ", cin >> dueDay;
-							if (!regex_match(dueDay, regex("[0-90-9]+"))) {
+							if (!regex_match(dueDay, regex("[0-90-9]+"))) { // checking if given data is an number
 								cout << "Entered invalid input!\nEnter only numbers!" << endl;
 								validation = false;
 							}
 							else {
 								dD = stoi(dueDay);
-								if (dM == sM && dD < sD) {
+								if (dM == sM && dD < sD) { // checking if given number of ending day is larger than number of starting month
 									validation = false;
 									cout << "Given number of ending day is fewer than number of starting month!\n\n";
 								}
 								else {
-									if (dD < 32 && dD>0) {
+									if (dD < 32 && dD>0) { //checking if user enetered correct number of day for given number of month
 										if (dM == 2 && dD < 29) {
 											validation = true;
 										}
@@ -222,9 +225,9 @@ class User : public Vehicle{
 							
 						} while (!validation); // variables which will store admin input
 						sM--; dD--; sD--; dM--; // decrementing variables to match with index of array
-						if (Vehicles[k].isReserved(sM, sD, dM, dD)) {
-							Reservation reserv(sM, sD, dM, dD, k); // wrzuciæ metody i konstruktor klasy reservation aby user przechowywa³ wektor rezerwacji
-							reservationsHistory.push_back(reserv);
+						if (Vehicles[k].isReserved(sM, sD, dM, dD)) { // checking if chosen vehicle is reserved or in maintance in given date
+							Reservation reserv(sM, sD, dM, dD, k); // making an reservation object
+							reservationsHistory.push_back(reserv); // pushing reservation's object to vector of reservations
 							cout << endl << "Reservation made! Thank you!" << endl;
 						}
 						else {
@@ -236,14 +239,14 @@ class User : public Vehicle{
 					}
 					
 				}
-				else if (n == 3) {
-					if (getBan() == 0) {
-						if (reservationsHistory.size() == 0) {
+				else if (n == 3) { // Module of printing reservations
+					if (getBan() == 0) { // checking if accoutn is banned
+						if (reservationsHistory.size() == 0) { // checking if user already has any reservations
 							cout << "There's no reservations made!" << endl;
 						}
 						else {
 							for (auto i = reservationsHistory.begin(); i != reservationsHistory.end(); ++i) {
-								i->Print(); cout << endl;
+								i->Print(); cout << endl; // printing reservations
 							}
 						}
 					}
@@ -251,42 +254,44 @@ class User : public Vehicle{
 						cout << endl << "!Your account has been banned! For more information contact admin!" << endl << endl;
 					}
 				}
-				else if (n == 4) {
-					if(getBan() == 0){
+				else if (n == 4) { // Module of canceling reservations
+					if(getBan() == 0){ // checking if accoutn is banned
 						if (reservationsHistory.size() == 0) {
 							cout << "You haven't made any reservation!" << endl;
 
 						}
 						else {
-							int j{ 1 };
+							int j{ 1 }; // variable which will store and index of chosen reservation in vector of reservations
 							do{
 								
 								cout << "Choose reservatiion to cancel: " << endl;
 								for (auto i = reservationsHistory.begin(); i != reservationsHistory.end(); ++i) {
 									cout << "----------------------------------------" << endl << j << ":" << endl;
-									i->Print(); cout << endl;
+									i->Print(); cout << endl; // printing reservations in order to cancel of of these
 									j++;
 								}
-								cin >> j;
-								j--;
+								cin >> j; // choosing number of reservation to cancel
+								j--; // postdecrementing, because indexes start from 0
 							}while (j >= reservationsHistory.size());
 
-							string s{};
-							cout << "Enter a confition of a vehicle of which reservation you want to end! Enter good, bad or excellent! " << endl;
-							cin >> s; reservationsHistory[j].getVehicle().setCondition(s);
+							string s{}; // variable which will be storing and condition of vehicle post reservation
+							cout << "Enter a condition of a vehicle of which reservation you want to end! Enter good, bad or excellent! " << endl;
+							cin >> s; reservationsHistory[j].getVehicle().setCondition(s); // setting condition to vehicle post reservation
 							reservationsHistory[j].getVehicle().deleteReservationCal(reservationsHistory[j].getStrMonth(), reservationsHistory[j].getStrDay(), reservationsHistory[j].getDueMonth(), reservationsHistory[j].getDueDay());
-							reservationsHistory[j].~Reservation();
-							reservationsHistory.erase(reservationsHistory.begin() + j);
+							reservationsHistory[j].~Reservation(); // destructing and reservation
+							reservationsHistory.erase(reservationsHistory.begin() + j); // erasing rservation from vector of reservations
 						}
 					}
 					else {
 						cout << endl << "!Your account has been banned! For more information contact admin!" << endl << endl;
 					}
 				}
-				else if (n == 5) {
-					PrintVehicles();
+				else if (n == 5) { // Printing available vehicles
+					system("cls"); // cleaning terminal
+					PrintVehicles(); 
 				}
-				else if (n == 6) {
+				else if (n == 6) { // module of logging out
+					system("cls"); // cleaning terminal
 					cout << "Logging out..." << endl;
 					
 					break;
@@ -294,18 +299,18 @@ class User : public Vehicle{
 			}
 		}
 
-		~User() { /* destuktor */ }
+		~User() { /* destructor */ }
 };
 vector<User>Users{}; // collection of users <Login,Password>
 
-class Admin : public User {
+class Admin : public User { // 
 	private:
-		string Key{""}; // klucz uprawniaj¹cy do wykonywania ró¿nych akcji z poziomu administratora
+		string Key{""}; // key to point if admin is logging in or user
 	public:
 		Admin(string p_name, string p_surname, string p_login, string p_password, int p_age, string p_key) :User(p_name, p_surname, p_login, p_password, p_age), Key(p_key) { setBan(0); }
 		
 		void ChangeUserData(int k) {
-			int n{}, j{}; string s{}; // n - variable to store age and indicator of action on user's data
+			int n{}, j{}; string s{}; // n - variable to store age and indicator of action on user's data, s - variable to store 
 			while (true) {
 				cout << "Choose data to change: " << endl;
 				Users[k].Print(), cout << "5. Exit" << endl , cin >> n;
@@ -337,7 +342,7 @@ class Admin : public User {
 						if (Users.size() > 1) {
 							for (int i = 0; i <= Users.size() - 1; i++) {
 
-								if (Users[i].getLogin() == s) {
+								if (Users[i].getLogin() == s) { // checking if given login already exist
 									j = true;
 									cout << "Login already exist!" << endl;
 									cout << "Enter different login!\n" << endl;
@@ -353,11 +358,11 @@ class Admin : public User {
 				else if (n == 4) {//change age
 					do {
 						cout << endl << "Enter age: ", cin >> s;
-						if (regex_match(s, regex("[0-90-9]+"))) {
+						if (regex_match(s, regex("[0-90-9]+"))) { // checking if given input is a  number
 							n = stoi(s);
 							cout << endl;
 							j = 0;
-							if (n < 18 || n > 100) {
+							if (n < 18 || n > 100) { // checking if given number is fewer than 100 and larger than 18
 								cout << "Unnacceptable age!" << endl;
 							}
 						}
@@ -383,7 +388,7 @@ class Admin : public User {
 		}
 		void InterfaceAdmin() {
 			while (true) {
-				system("cls");
+				system("cls"); // cleaning terminal
 				int n{ 0 }, k{ 0 }, b{ 1 }; string decision{},input; // n - variable to choose sepcified module, k - variable to point exact user or vehicle, which admin wants to manage
 				do{//cout << "Admin interface terminated!"<<endl<<"Under constructions!" << endl;
 					cout << "\nChoose action!" << endl;
@@ -393,9 +398,9 @@ class Admin : public User {
 					cout << "4. Log out" << endl;
 					cin >> input;
 					if (!regex_match(input, regex("[1-4]+"))) { cout << "\nEntered incorrect input value! Enter only number between 1-4!\n\n"; }
-				} while (!regex_match(input,regex("[1-4]+")));
+				} while (!regex_match(input,regex("[1-4]+"))); // checking if given number is larger than 4 or fewer than 1
 				
-				n = stoi(input);
+				n = stoi(input); // conversion from string to integer
 				
 				if (n == 1) {
 					 //1. Admin info -> Print()
@@ -435,7 +440,7 @@ class Admin : public User {
 						decision = "Yes"; // decision variable which will be used to manage reservations
 						while (regex_match(decision,regex("[Yy]es"))) {
 							if (Users[k].reservationsHistory.size() > 0) {
-								int j = 0;
+								int j = 0; // index of reservation if vector of reservations
 								do {
 
 									cout << "Choose reservation to manage: " << endl;
@@ -453,7 +458,7 @@ class Admin : public User {
 
 								Users[k].reservationsHistory[j].Manage(k, j);
 
-								int g = Users[k].reservationsHistory[j].getMDecision(); // g is a variable which will store admin's decision of if he deleted reservation
+								int g = Users[k].reservationsHistory[j].getMDecision(); // g is a variable which will store admin's decision, it will store 3 if admin wants to delete an rseservation
 
 								if (g == 3) {
 									Users[k].reservationsHistory[j].~Reservation();
@@ -469,19 +474,17 @@ class Admin : public User {
 							}
 						};
 						break;
-					 case 3:	//3. Block user's access
+					 case 3:	//3. Block user's access, in other words ... ban user
 						 Users[k].setBan(1);
 						 cout << "\nAccount banned!\n" << endl;
 						 break;
-					 case 4:	//4. Unblock user's access
+					 case 4:	//4. Unblock user's access, unbanning
 						 Users[k].setBan(0);
 						 cout << "\nAccount unbanned!\n" << endl;
 						 break;
 					 case 5://5. Delete user
-						 //deleting user data from file
-						 
-						 Users[k].~User();
-						 Users.erase(Users.begin() + k);
+						 Users[k].~User(); // destructing user
+						 Users.erase(Users.begin() + k); // erasing user from vector of users
 						 cout << "\nAccount deleted!\n" << endl;
 						 break;
 					 default:
@@ -489,8 +492,10 @@ class Admin : public User {
 						 break;
 					 }
 				}
-				else if (n == 3) {
-					 int n{}; string n_in, k_in; bool validation{ true };
+				else if (n == 3) { // manage vehicle
+					 int n{}; string n_in, k_in; bool validation{ true }; // n - integer which will store number of chosen vehicle, n_+in is a string to check if user eneterd an number and if this number is fewer than 20 and larger than 1
+					 //validation is and indicator which will be used in checking if user enered number and if yes, if entered number is between 1 and 20
+					 // n_in is a variabke wich will store an number of action chosen by admin on vehicle
 					 do { 
 						 PrintVehicles();
 						 cout << endl;
@@ -515,21 +520,21 @@ class Admin : public User {
 						 } while (!regex_match(n_in, regex("[1-5]+")));
 						 
 						 if (n_in == "4") { // 4. Delete vehicle
-							 Vehicles.erase(Vehicles.begin() + n);
+							 Vehicles.erase(Vehicles.begin() + n);//erase vehicle from vector of vehicles
 							 break;
 						 }
 						 else if (n_in == "5") {//5. Exit
-							 cout << "\nExiting...\n";
+							 cout << "\nExiting...\n"; // exit from module
 							 break;
 						 }
 						 else {
-							 Vehicles[n].Manage(n_in);
+							 Vehicles[n].Manage(n_in); // terminate an subinterface to manage chosen vehicle
 						 }
 					 }
 				}
 				else if (n == 4) {
 					 //4. Log out
-					 cout << "Loging out..." << endl;
+					 cout << "Loging out..." << endl; // log out from module 
 					 break;
 				}else{
 					 cout << endl << "Entered bad input! Mind to choose number between 1-4!" << endl;

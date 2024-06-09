@@ -1,3 +1,4 @@
+//Header file which contains class Reservation and methods which are responsible for managing reservations.
 #ifndef RESERVATION_HPP_
 #define RESERVATION_HPP_
 
@@ -6,11 +7,12 @@
 #include "user.h"
 #include "vehicle.h"
 
-class Reservation : public Vehicle{
+class Reservation : public Vehicle{ // heritage from class Vehicle
 	private:
 		int str_Month{}, str_Day{}, due_Month{}, due_Day{}, daysTotal, manage_Decision;;
 		Vehicle *object;
 	public:
+		//setters and getters
 		void setStrMonth(int p_strMonth) { str_Month = p_strMonth; } int getStrMonth()const {return str_Month;}
 		void setStrDay(int p_strDay) { str_Day = p_strDay; }		 int getStrDay() const { return str_Day; }
 		void setDueMonth(int p_dueMonth) { due_Month = p_dueMonth; } int getDueMonth()const { return due_Month; }
@@ -18,14 +20,14 @@ class Reservation : public Vehicle{
 		void setVehicle(Vehicle &car) { object = &car; }		     Vehicle getVehicle()const { return *object; }
 		void setMDecision(int p_manage_decision) { manage_Decision = p_manage_decision; } int getMDecision(void) const { return manage_Decision; }
 		void setDaysTotal(int p_DaysTot) { daysTotal = p_DaysTot; }  int getDaysTotal(void)const { return daysTotal; }
-		Reservation(int p_strM, int p_strD, int p_dueM, int p_dueD,int k)://konstruktor: isReserved -> ReservsationCalcendar
-		str_Month(p_strM),str_Day(p_strD),due_Month(p_dueM),due_Day(p_dueD){
-			setVehicle(Vehicles[k]);
-			setDaysTotal(object->reservingCalendar(str_Month, str_Day, due_Month, due_Day));
+		Reservation(int p_strM, int p_strD, int p_dueM, int p_dueD,int k)://construktor: isReserved -> ReservsationCalcendar
+		str_Month(p_strM),str_Day(p_strD),due_Month(p_dueM),due_Day(p_dueD){ // initialization list
+			setVehicle(Vehicles[k]); // setting vehicle which user reserved in given date
+			setDaysTotal(object->reservingCalendar(str_Month, str_Day, due_Month, due_Day)); // setting total days of reservation to set correct price of reservation and reserving exact vehicle in given date
 		}
 		virtual void Manage(int k,int j) {
 			while (true) {
-				system("cls");
+				system("cls"); // cleaning terminal
 				string n{};//variable which will represents admin's choice of in which way he want to manage exact reservation
 				cout << endl << "Choose action on reservation" << endl;
 				cout << "1. Reservation details" << endl;
@@ -34,7 +36,7 @@ class Reservation : public Vehicle{
 				cout << "4. Exit" << endl;
 				do {
 					cin >> n;
-				} while (!regex_match(n, regex("[1-4]+")));
+				} while (!regex_match(n, regex("[1-4]+"))); // checking if given input is an number not larger than 4 and not fewer than 1
 				setMDecision(stoi(n));
 				if (n == "1") {//1. Print
 					cout << "-----------------------------------" << endl;
@@ -42,7 +44,7 @@ class Reservation : public Vehicle{
 					cout << "-----------------------------------" << endl << endl;
 				}
 				else if (n == "2") {//2. Change date of reservation
-					string strDay{}, strMonth{}, dueDay{}, dueMonth{}; // variables which will store admin input
+					string strDay{}, strMonth{}, dueDay{}, dueMonth{}; // variables which will store admin input and be used to set new date of reservation
 
 					int sD{ getStrDay() }, sM{ getStrMonth() },
 						dD{ getDueDay() }, dM{ getDueMonth() }; // variables which will be changing date of reservation
@@ -52,20 +54,20 @@ class Reservation : public Vehicle{
 					//Users[k].reservationsHistory[j].getVehicle().deleteReservationCal(sM, sD, dM, dD);
 
 					for (int i = 0; i <= Vehicles.size() - 1; ++i) {
-						if (object->getName() == Vehicles[i].getName()) {
-							n = i;
+						if (object->getModel() == Vehicles[i].getModel()) {
+							n = i; // getting an index of object in vector of vehicles
 						}
 					}
-					Vehicles[n].deleteReservationCal(sM, sD, dM, dD);
+					Vehicles[n].deleteReservationCal(sM, sD, dM, dD); // launching and deleting function located in class Vehicle
 					do {
 						cout << "Enter starting month: ", cin >> strMonth;
-						if (!regex_match(strMonth, regex("[1-91-9]+"))) {
+						if (!regex_match(strMonth, regex("[1-91-9]+"))) { // checking if user inputted an number
 							cout << "Entered invalid input!\nEnter only numbers" << endl;
 							validation = false;
 						}
 						else {
 							sM = stoi(strMonth);
-							if (sM < 1 || sM>12) {
+							if (sM < 1 || sM>12) { // checking if given input is larger than 12 or fewer than 1
 								validation = false;
 								cout << "Entered incorrect inout value! Mind to enter number between 1-12!" << endl << endl;
 							}
@@ -77,14 +79,14 @@ class Reservation : public Vehicle{
 					} while (!validation);
 					do {
 						cout << "Enter starting day: ", cin >> strDay;
-						if (!regex_match(strDay, regex("[1-90-1]+"))) {
+						if (!regex_match(strDay, regex("[1-90-1]+"))) { // checking if user entered an number
 							cout << "Entered invalid input!\nEnter only numbers" << endl;
 							validation = false;
 						}
 						else {
 							sD = stoi(strDay);
-							if (sD < 32 && sD>0) {
-								if (sM == 2 && sD < 29) {
+							if (sD < 32 && sD>0) { // checking if user gave correct number of day for excact month
+								if (sM == 2 && sD < 29) { 
 									validation = true;
 								}
 								else if ((sM == 4 || sM == 6 || sM == 9 || sM == 11) && sD < 31) {
@@ -107,13 +109,13 @@ class Reservation : public Vehicle{
 
 					do {
 						cout << "Enter ending month: ", cin >> dueMonth;
-						if (!regex_match(dueMonth, regex("[1-91-9]+"))) {
+						if (!regex_match(dueMonth, regex("[1-91-9]+"))) { // checking if user entered number
 							cout << "Entered invalid input!\nEnter only numbers" << endl;
 							validation = false;
 						}
 						else {
 							dM = stoi(dueMonth);
-							if (dM >= sM) {
+							if (dM >= sM) { // checking of user gave correct number of ending month - ending month cannot be fewer than number of starting month
 								if (dM < 1 || dM>12) {
 									validation = false;
 									cout << "Entered incorrect input value! Mind to enter number between 1-12!" << endl << endl;
@@ -135,7 +137,7 @@ class Reservation : public Vehicle{
 							cout << "Entered invalid input!\nEnter only numbers!" << endl;
 							validation = false;
 						}
-						else {
+						else { // checking if user gave correct number of day for excact month
 							dD = stoi(dueDay);
 							if (dM == sM && dD < sD) {
 								validation = false;
@@ -194,7 +196,7 @@ class Reservation : public Vehicle{
 		~Reservation() {
 			int n{}; // variable to get object position in vector of vehicles to cancel reservation
 			for (int i = 0; i <= Vehicles.size() - 1; ++i) {
-				if (object->getName() == Vehicles[i].getName()) {
+				if (object->getModel() == Vehicles[i].getModel()) {
 					n = i;
 				}
 			}

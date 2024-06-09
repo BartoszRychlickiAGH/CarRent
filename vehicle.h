@@ -1,3 +1,4 @@
+//Header file with class Vehicle and methods which are responsible for managing vehicles
 #ifndef VEHICLE_HPP_
 #define VEHICLE_HPP_
 #include "including.h"
@@ -14,11 +15,12 @@ private:
 	string type{ "" };// typ pojazdu
 	string category{ "" };// klasa pojazdu
 	float price{ 0.0 };//cena za wynajem [per day]
-	vector <vector<bool>>Cal;
+	vector <vector<bool>>Cal; // representing and calendar, vector of 12 vector, where each vector has different size
 	int DaysTotal{};
 	
 
 public:
+	// getters and setters
 	void setCondition(string p_condition) { condition = p_condition; }// setStan
 	void setPrice(float p_price = 0.0) { price = p_price; }
 	void setBrand(string p_brand) { brand = p_brand; }
@@ -28,18 +30,23 @@ public:
 	void setGearBox(string p_gearbox) { gearbox = p_gearbox; }
 	void setType(string p_type) { type = p_type; }
 
-	string getName(void)const { return model; }
+	string getModel(void)const { return model; }
+	string getBrand(void)const { return brand; }
+	string getCategory(void)const { return category; }
+	string getEngine(void)const { return engine; }
+	string getGearBox(void)const { return gearbox; }
+	string getType(void)const { return type; }
 	string getCondition(void) { return condition; }// getStan
 	int getDaysTotal(void) const { return DaysTotal; }
 	float getprice()const { return price; }
-
+	//constructor
 	Vehicle(string p_brand = "Didn't set", string p_model = "Didn't set", string p_gearbox = "Didn't set",
 		string p_engine = "Didn't set", string p_condition = "Didn't set", string p_type = "Didn't set", 
 		string p_category = "Didn't set") :brand(p_brand), model(p_model), gearbox(p_gearbox), engine(p_engine), condition(p_condition),
 		type (p_type), category(p_category)
 	{
 		
-
+		//setting correct price base on class of vehicle and his condition
 		if (p_category == "Luxury") {
 			setPrice(300);
 		}
@@ -55,6 +62,7 @@ public:
 		else if (p_condition == "Bad") {
 			setPrice(getprice() * 0.5);
 		}
+		//building calendar
 		for (int i = 0; i <= 11; ++i) {
 			if (i == 0 || i == 2 || i == 4 || i == 6 || i == 7 || i == 9 || i == 11) {
 				vector<bool>Days;
@@ -79,7 +87,7 @@ public:
 			}
 		}
 	}//konstruktor
-	
+	//Printing value of field of object
 	virtual void Print()const {
 		cout << "Brand: " << brand << endl;
 		cout << "Model: " << model << endl;
@@ -91,7 +99,7 @@ public:
 	}// void Print
 	
 
-	bool isReserved(int strMonth, int strDay, int dueMonth, int dueDay) {
+	bool isReserved(int strMonth, int strDay, int dueMonth, int dueDay) { // bool function, which returns if exact vehicle is reservaed in given date
 		vector <bool> check;
 		if (strMonth <= dueMonth) {
 			for (int i = strDay - 1; i <= Cal[strMonth].size() - 1; i++) {//Cal
@@ -126,7 +134,7 @@ public:
 
 	}
 
-	int reservingCalendar(int strMonth, int strDay, int dueMonth, int dueDay) {
+	int reservingCalendar(int strMonth, int strDay, int dueMonth, int dueDay) { //  int functon which set an false to reserv vehicle in given date, also return how many days user reserved an vehicle
 		if (strMonth < dueMonth) {
 			for (int i = strDay - 1; i <= Cal[strMonth].size() - 1; i++) {
 				Cal[strMonth][i] = false;
@@ -159,7 +167,7 @@ public:
 		}
 		return DaysTotal;
 	}
-	void deleteReservationCal(int strMonth, int strDay, int dueMonth, int dueDay) {// metoda na zakoñczenie rezerwacji -> zmiana wska¿nika dostênosci z 1 -> 0
+	void deleteReservationCal(int strMonth, int strDay, int dueMonth, int dueDay) {// void function which turns false into true in order to cancel reservation in given date
 		if (strMonth <= dueMonth) {
 			for (int i = strDay - 1; i <= Cal[strMonth].size() - 1; i++) {
 				Cal[strMonth][i] = true;
@@ -181,16 +189,16 @@ public:
 		DaysTotal = 0;
 	}
 	
-	virtual void Manage(string n_in) {
-		system("cls");
-		string strMonth{}, strDay{}, dueMonth{}, dueDay{}; bool validation{};
+	virtual void Manage(string n_in) { // virtual function whic is an subinterface,it's launched when admin wants to change a field of exact vehicle
+		system("cls"); // cleaning terminal
+		string strMonth{}, strDay{}, dueMonth{}, dueDay{}; bool validation{}; // variables where wille be stored an exact date in order to change reservation date, validation - to store if given condition is true or false
 		int sM{}, sD{}, dM{}, dD{}; // variables which will be storing informations about date in which there will be vehicles's mainatnce or end of maitance
 			
 		if (n_in == "1") { //1. Vehicle's info and if required, changing data
-			string input{""};
+			string input{""}; // variable which will store an number of action hich user chose
 			while (true) {
-				{
-					
+				do {
+
 					cout << "\nChoose action: " << endl;
 					cout << "1. Change brand name" << endl;
 					cout << "2. Change model name" << endl;
@@ -203,21 +211,21 @@ public:
 					cin >> input;
 					cout << endl;
 					if (!regex_match(input, regex("[1-8]+"))) { cout << "invalid input! Enter number between 1-8!" << endl; }
-				}while (!regex_match(input, regex("[1-8]+")));
+				} while (!regex_match(input, regex("[1-8]+")));
+
 				if (input == "1") { // Change brand name
 					do {
 						cout << "Enter brand name: ", cin >> input, cout << endl;
 						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; }
 						// cheking if admin entere brand's name which exist IRL
-					} while (!regex_match(input,regex("^[A-Za-z]+$")));
+					} while (!regex_match(input, regex("^[A-Za-z]+$")));
 					setBrand(input);
-					cout <<endl<<"Vehicle's brand name changed" << endl;
+					cout << endl << "Vehicle's brand name changed" << endl;
 				}
 				else if (input == "2") { // Change model name
 					do {
 						cout << "Enter model name: ", cin >> input, cout << endl;
 						if (!regex_match(input, regex("^[A-Za-z0-9]+$"))) { cout << "Entered wrong input value" << endl; }
-						// cheking if admin entere brand's name which exist IRL
 					} while (!regex_match(input, regex("^[A-Za-z0-9]+$")));
 					setModel(input);
 					cout << endl << "Vehicle's model name changed" << endl;
@@ -225,7 +233,8 @@ public:
 				else if (input == "3") { // Change class
 					do {
 						validation = true;
-						cout << "Enter class name: ", cin >> input, cout << endl;
+						cout << "Enter class name: ";
+						cin >> input, cout << endl;
 						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
 						if (input != "Common" && input != "Luxury" && input != "Rare") { validation = false; cout << "Entered wrong input value!\n Enter one of these classes: Common, Rare, Luxury" << endl; }
 						// cheking if admin entere brand's name which exist IRL
@@ -236,8 +245,9 @@ public:
 				else if (input == "4") { // Change engine
 					do {
 						validation = true;
-						cout << "Enter engine: ", cin >> input, cout << endl;
-						if (!regex_match(input, regex("^[A-Za-z0-9]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
+						cout << "Enter engine: ";
+						cin >> input; cout << endl;
+						if (!regex_match(input, regex("^[A-Za-z.0-9]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
 						// cheking if admin entere brand's name which exist IRL
 					} while (!validation);
 					setEngine(input);
@@ -246,9 +256,10 @@ public:
 				else if (input == "5") { // Change gearbox
 					do {
 						validation = true;
-						cout << "Enter gearbox: ", cin >> input, cout << endl;
+						cout << "Enter gearbox: ";
+						cin >> input, cout << endl;
 						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
-						if (input != "Automatic" && input != "Manual" ) { validation = false; cout << "Entered wrong input value!\n Enter one of these gearboxes: Automatic, Manual" << endl; }
+						if (input != "Automatic" && input != "Manual") { validation = false; cout << "Entered wrong input value!\n Enter one of these gearboxes: Automatic, Manual" << endl; }
 						// cheking if admin entere brand's name which exist IRL
 					} while (!validation);
 					setGearBox(input);
@@ -257,7 +268,8 @@ public:
 				else if (input == "6") { // Change condition
 					do {
 						validation = true;
-						cout << "Enter condition: ", cin >> input, cout << endl;
+						cout << "Enter condition: ";
+						cin >> input, cout << endl;
 						if (!regex_match(input, regex("^[A-Za-z]+$"))) { cout << "Entered wrong input value" << endl; validation = false; }
 						if (input != "Bad" && input != "Excellent" && input != "Good") { validation = false; cout << "Entered wrong input value!\n Enter one of these conditions: Bad, Good, Excellent" << endl; }
 						// cheking if admin entere brand's name which exist IRL
@@ -267,7 +279,8 @@ public:
 				}
 				else if (input == "7") { // Change price
 					do {
-						cout << "Enter new price: ", cin >> input, cout << endl;
+						cout << "Enter new price: ";
+						cin >> input, cout << endl;
 						if (!regex_match(input, regex("[0-9]+$"))) { cout << "Entered not a number! Mind to enter only numbers while changing vehicle's price!" << endl; };
 					} while (!regex_match(input, regex("[0-9]+$")));
 					setPrice(stoi(input));
@@ -277,9 +290,9 @@ public:
 					cout << "Exiting..." << endl;
 					break;
 				}
-			}
+			};
 		}
-		else if (n_in == "2" || n_in == "3") {//2. Turn avability of vehicle to "in maintance"
+		else if (n_in == "2" || n_in == "3") {//2. Turn avability of vehicle to "in maintance" or "available"
 			do{
 				cout << "Enter date: " << endl;
 				do {
@@ -429,7 +442,7 @@ public:
 
 
 vector<Vehicle>Vehicles;// collection of vehicles
-void PrintVehicles() {
+void PrintVehicles() { // function which displays and information of all vehicles in vector of vehicles
 	int j{ 1 };
 	cout << "--------------------------------------------------------------------------------" << endl;
 	for (int i = 0;i <= Vehicles.size()-1; ++i) {
