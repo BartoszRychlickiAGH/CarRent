@@ -303,11 +303,12 @@ class User : public Vehicle{
 };
 vector<User>Users{}; // collection of users <Login,Password>
 
-class Admin : public User { // 
+class Admin : public User {
 	private:
-		string Key{""}; // key to point if admin is logging in or user
+		string Key{""};
 	public:
-		Admin(string p_name, string p_surname, string p_login, string p_password, int p_age, string p_key) :User(p_name, p_surname, p_login, p_password, p_age), Key(p_key) { setBan(0); }
+		//construktor
+		Admin(string p_name, string p_surname, string p_login, string p_password, int p_age, string p_key) :User(p_name, p_surname, p_login, p_password, p_age), Key(p_key) { setBan(0); Key = ""; }
 		
 		void ChangeUserData(int k) {
 			int n{}, j{}; string s{}; // n - variable to store age and indicator of action on user's data, s - variable to store 
