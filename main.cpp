@@ -260,7 +260,7 @@ int main() {
                     x = s;
 
                     text = to_string(Users[i].getBan());
-                    s = insertIntoString(x, text); s.push_back(','); s.push_back(';'); s.push_back('\n');
+                    s = insertIntoString(x, text); s.push_back(','); s.push_back(';'); //s.push_back('\n');
                     x = s;
 
                     //cout << x << endl;
@@ -295,11 +295,11 @@ int main() {
                 x = s;
 
                 text =Vehicles[i].getCategory();
-                s = insertIntoString(x, text); s.push_back(','); s.push_back(';'); s.push_back('\n');
+                s = insertIntoString(x, text); s.push_back(','); s.push_back(';');// s.push_back('\n');
                 x = s;
 
                 //cout << x << endl;
-                fileVehiclesOut << x; // putting x into file
+                fileVehiclesOut << x; // putting data of Vehicle into file
             }
             break;
         }
