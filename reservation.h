@@ -27,6 +27,7 @@ class Reservation : public Vehicle{ // heritage from class Vehicle
 		}
 		virtual void Manage(int k,int j) {
 			while (true) {
+				Sleep(500);
 				system("cls"); // cleaning terminal
 				string n{};//variable which will represents admin's choice of in which way he want to manage exact reservation
 				cout << endl << "Choose action on reservation" << endl;

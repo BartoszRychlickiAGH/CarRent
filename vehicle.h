@@ -443,11 +443,16 @@ public:
 
 vector<Vehicle>Vehicles;// collection of vehicles
 void PrintVehicles() { // function which displays and information of all vehicles in vector of vehicles
-	int j{ 1 };
-	cout << "--------------------------------------------------------------------------------" << endl;
-	for (int i = 0;i <= Vehicles.size()-1; ++i) {
-		cout <<endl<< j << ":" << endl, j++;
-		Vehicles[i].Print(), cout << "\n--------------------------------------------------------------------------------";
+	if (Vehicles.size() >= 1) {
+		int j{ 1 };
+		cout << "--------------------------------------------------------------------------------" << endl;
+		for (int i = 0; i <= Vehicles.size() - 1; ++i) {
+			cout << endl << j << ":" << endl, j++;
+			Vehicles[i].Print(), cout << "\n--------------------------------------------------------------------------------";
+		}
+	}
+	else {
+		cout << "There is no vehicles in database!" << endl;
 	}
 }
 #endif

@@ -5,7 +5,7 @@
 #include "vehicle.h"
 #include "reservation.h"
 
-class User : public Vehicle{
+class User /*: public Vehicle*/{
 	private:
 		string name{""}, surname{""}, login{""}, password{""},Key{"0"};
 		int age{ 0 }, ban{0};
@@ -90,7 +90,7 @@ class User : public Vehicle{
 			{
 				
 				cout << "\nChoose action: " << endl; 
-				cout << "1.User info\n2.New reservation\n3.CurrentReservations\n4.Cancel Reservation\n5.Vehicles available\n6.Log out" << endl;
+				cout << "1.User info\n2.New reservation\n3.Current Reservations\n4.Cancel Reservation\n5.Vehicles available\n6.Log out" << endl;
 				do {
 					cin >> n_string;
 					if (!regex_match(n_string, regex("[1-6]"))) {
@@ -389,6 +389,7 @@ class Admin : public User {
 		}
 		void InterfaceAdmin() {
 			while (true) {
+				Sleep(500);
 				system("cls"); // cleaning terminal
 				int n{ 0 }, k{ 0 }, b{ 1 }; string decision{},input; // n - variable to choose sepcified module, k - variable to point exact user or vehicle, which admin wants to manage
 				do{//cout << "Admin interface terminated!"<<endl<<"Under constructions!" << endl;
@@ -499,8 +500,7 @@ class Admin : public User {
 					 // n_in is a variabke wich will store an number of action chosen by admin on vehicle
 					 do { 
 						 PrintVehicles();
-						 cout << endl;
-						 cin >> k_in;
+						 cout << endl << "Choose vehicle to manage: ", cin >> k_in; cout << endl;
 						 if (!regex_match(k_in, regex("[0-90-9]+"))) { cout << "Entered type of input! Enter only numbers!" << endl << endl; validation = false; }
 						 else if (stoi(k_in) < 1 || stoi(k_in) > 20) { cout << "\nEntered wrong number of vehicle! Enter number between 1-20!\n\n"; validation = false; }
 						 else { validation = true; }
